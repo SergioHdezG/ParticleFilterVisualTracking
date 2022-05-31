@@ -33,18 +33,22 @@ def select_particles(particulas):
 
     pesos_acum = particulas['peso']
 
+    # Calcular CDF
     for i in range(1, pesos_acum.shape[0]):
         pesos_acum[i] = pesos_acum[i-1] + pesos_acum[i]
 
     random.seed(None)
 
+    # Remuestrear de la distribución
     for i in range(pesos_acum.shape[0]):
         rand = random.random()
         j = 0
 
+        # Seleccionar primer ejemplo con probabilidad acumulada mayor que rand
         while j < pesos_acum.shape[0] and pesos_acum[j] < rand:
             j = j+1
 
+        # Muestrear de una normal con media en el estado j.
         if j < pesos_acum.shape[0]:
             mu, sigma = 0, 20  # mean and standard deviation
 
